@@ -135,13 +135,11 @@ def main(units, lr, mnist_data):
     x_train, x_test,  y_train, y_test = train_test_split(
         images, labels, test_size=0.2)
 
-    epochs = 25
+    epochs = 10
     num_hidden_units = units
     minibatch_size = 128
     regularization_rate = 0.1
     learning_rate = lr
-
-    print(num_hidden_units, learning_rate)
 
     mlp = MLP(num_hidden_units, minibatch_size,
               regularization_rate, learning_rate)
@@ -160,5 +158,5 @@ if __name__ == "__main__":
     mnist_data = fetch_openml("mnist_784")
     for unit in units:
         for lr in lrs:
-            print("units: %d, lr: %d" % (unit, lr))
+            print("units: %d, lr: %f" % (unit, lr))
             main(unit, lr, mnist_data)
