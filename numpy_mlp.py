@@ -128,30 +128,37 @@ class MLP:
         return output_labels
 
 
-mnist_data = fetch_openml("mnist_784")
+def main(units, lr):
 
-labels = np.array(list(map(lambda x: int(x), mnist_data['target'])))
-images = np.array(mnist_data['data'])/255.0
+    mnist_data = fetch_openml("mnist_784")
 
-x_train, x_test,  y_train, y_test = train_test_split(
-    images, labels, test_size=0.2)
+    labels = np.array(list(map(lambda x: int(x), mnist_data['target'])))
+    images = np.array(mnist_data['data'])/255.0
 
-epochs = 25
-num_hidden_units = 500
-minibatch_size = 128
-regularization_rate = 0.1
-learning_rate = 0.001
+    x_train, x_test,  y_train, y_test = train_test_split(
+        images, labels, test_size=0.2)
 
-print(num_hidden_units, learning_rate)
+    epochs = 25
+    num_hidden_units = units
+    minibatch_size = 128
+    regularization_rate = 0.1
+    learning_rate = lr
 
-mlp = MLP(num_hidden_units, minibatch_size,
-          regularization_rate, learning_rate)
+    print(num_hidden_units, learning_rate)
+
+    mlp = MLP(num_hidden_units, minibatch_size,
+              regularization_rate, learning_rate)
+
+    mlp.train(x_train, y_train, epochs)
+
+    labels = mlp.test(x_test)
+    print("Error number: %d" % str(np.sum(labels != y_train)))
+    accuracy = np.mean((labels == y_train)) * 100.0
+    print("Test accuracy: %lf%%" % accuracy)
 
 
-mlp.train(x_train, y_train, epochs)
-
-
-labels = mlp.test(x_test)
-print("Error number: %d" % str(np.sum(labels != y_train)))
-accuracy = np.mean((labels == y_train)) * 100.0
-print("Test accuracy: %lf%%" % accuracy)
+if __name__ == "__main__":
+    import sys
+    units = int(sys.argv[1])
+    lr = float(sys.argv[2])
+    main(units, lr)
