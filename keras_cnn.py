@@ -27,6 +27,8 @@ model = tf.keras.Sequential([
 model.compile(optimizer="adam",
               loss=tf.keras.losses.CategoricalCrossentropy(), metrics=["accuracy"])
 
+model.summary()
+
 model.fit(x_train, y_train, batch_size=64, epochs=10)
 test_loss, test_acc = model.evaluate(x_test,  y_test, verbose=2)
 
