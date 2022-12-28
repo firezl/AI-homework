@@ -3,7 +3,6 @@ from sklearn.datasets import fetch_openml
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 
-
 class MLP:
 
     def __init__(self, hidden_units, minibatch_size, regularization_rate, learning_rate):
@@ -128,9 +127,7 @@ class MLP:
         return output_labels
 
 
-def main(units, lr):
-
-    mnist_data = fetch_openml("mnist_784")
+def main(units, lr, mnist_data):
 
     labels = np.array(list(map(lambda x: int(x), mnist_data['target'])))
     images = np.array(mnist_data['data'])/255.0
@@ -152,13 +149,16 @@ def main(units, lr):
     mlp.train(x_train, y_train, epochs)
 
     labels = mlp.test(x_test)
-    print("Error number: %s" % str(np.sum(labels != y_train)))
-    accuracy = np.mean((labels == y_train)) * 100.0
+    print("Error number: %s" % str(np.sum(labels != y_test)))
+    accuracy = np.mean((labels == y_test)) * 100.0
     print("Test accuracy: %lf%%" % accuracy)
 
 
 if __name__ == "__main__":
-    import sys
-    units = int(sys.argv[1])
-    lr = float(sys.argv[2])
-    main(units, lr)
+    units = [500, 1000, 1500, 2000]
+    lrs = [0.1, 0.01, 0.001, 0.0001]
+    mnist_data = fetch_openml("mnist_784")
+    for unit in units:
+        for lr in lrs:
+            print("units: %d, lr: %d" % (unit, lr))
+            main(unit, lr, mnist_data)
