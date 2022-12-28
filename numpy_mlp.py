@@ -137,10 +137,12 @@ x_train, x_test,  y_train, y_test = train_test_split(
     images, labels, test_size=0.2)
 
 epochs = 25
-num_hidden_units = 300
-minibatch_size = 100
-regularization_rate = 0.01
+num_hidden_units = 500
+minibatch_size = 128
+regularization_rate = 0.1
 learning_rate = 0.001
+
+print(num_hidden_units, learning_rate)
 
 mlp = MLP(num_hidden_units, minibatch_size,
           regularization_rate, learning_rate)
