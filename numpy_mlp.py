@@ -152,7 +152,7 @@ def main(units, lr):
     mlp.train(x_train, y_train, epochs)
 
     labels = mlp.test(x_test)
-    print("Error number: %d" % str(np.sum(labels != y_train)))
+    print("Error number: %s" % str(np.sum(labels != y_train)))
     accuracy = np.mean((labels == y_train)) * 100.0
     print("Test accuracy: %lf%%" % accuracy)
 
